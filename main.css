@@ -44,6 +44,14 @@ input:focus{
 	border: 1px #7f8c8d solid;
 }
 
+/* Greeting */
+.greeting{
+	z-index: -1;
+	font-size: x-large;
+	text-align: center;
+	font-weight: bolder;
+	line-height: 90vh;
+}
 /* For Navigation bar */
 nav{
 	display: flex;
@@ -108,6 +116,11 @@ form{
 	margin: 5px;
 	width: 25%;
 }
+
+form h4{
+	margin: 10px;
+}
+
 .error{
 	position: relative;
 	left: 50%;

@@ -14,19 +14,23 @@
     <?php 
         include_once("./includes/dbconnect.php");
         if(isset($_SESSION["user"])){
-            // echo <<<'nav'
-            // <a href="">lorem</a>
-            // <a href="">lorem</a>
-            // <a href="">lorem</a>
-            // nav;
             if($_SESSION["user"] == "admin"){
                 echo <<<'adnav'
                 <a href="?s=stud">Manage Students</a>
                 <a href="?s=staf">Manage Staff</a>
-                <a href="?logout">Logout</a>
-                </nav>
                 adnav;
             }
+            else{
+                echo <<<'nav'
+                <a href="?action=take">Take Attendance</a>
+                <a href="?action=edit">Edit Attendance</a>
+                <a href="?action=generate">Generate Report</a>
+                nav;
+            }
+            echo <<< 'block'
+            <a href="?logout">Logout</a>
+            </nav>
+            block;
         }
         else{
             echo "</nav>";
