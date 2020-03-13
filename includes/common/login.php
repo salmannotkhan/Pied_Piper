@@ -3,11 +3,10 @@
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		
-		$query = "SELECT * FROM LOGIN_DETAILS WHERE UNAME = '$username'";
-		$result = $conn->query($query);
+		$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '$username'";
 
-		if($result->num_rows > 0){
-			$query = "SELECT * FROM LOGIN_DETAILS WHERE UNAME = '$username' AND PWD = '$password'";
+		if($conn->query($query)){
+			$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '$username' AND PWD = '$password'";
 			$result = $conn -> query($query);
 			if($result -> num_rows > 0){
 				$_SESSION["user"] = $username;

@@ -34,12 +34,12 @@
             }
             echo '</select>';
             echo '<select name="faculty">';
-            $query = "SELECT * FROM LOGIN_DETAILS WHERE UNAME != 'admin'";
+            $query = "SELECT * FROM USER_DETAILS WHERE UNAME != 'admin'";
             $result = $conn->query($query);
 
             if($result->num_rows > 0){
                 while ($row = $result->fetch_assoc()) {
-                    echo '<option value="'.$row["uname"].'">'.$row["uname"].'</option>';
+                    echo '<option value="'.$row["UNAME"].'">'.$row["UNAME"].'</option>';
                 }
             }
             echo '</select>';
