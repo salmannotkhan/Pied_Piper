@@ -30,6 +30,7 @@ a:not(.logo):hover{
 a.logo > p:hover{
     transform: scale(1.1, 1.1);
 }
+
 a{
     display: flex;
 	align-items: center;
@@ -55,6 +56,7 @@ form.generic{
     display: flex;
     flex-direction: column;
     margin: 20px auto;     
+    height: fit-content;
     background-color: #bdc3c7;
     border-radius: 3px;
     position: relative;
@@ -100,6 +102,9 @@ footer{
 container{
     position: absolute;
     top: 5%;
+    min-height: 95%;
+    display: flex;
+    align-items: center;
     width: 100%;
     height: max-content;
 }
@@ -112,6 +117,10 @@ form.sheet{
     padding-bottom: 40px;
 }
 
+.block{
+    width: 100%;
+    margin-bottom: 5%;
+}
 label.rollbox{
     display: block;
     position: relative;

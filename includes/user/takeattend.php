@@ -4,7 +4,8 @@
             echo '<script>confirm("Everyone is Absent")</script>';
         }
         else{
-            $query = "UPDATE `table 5` SET day".date("d")." = '1' WHERE `table 5`.`COL 1` IN(".implode(",",$_POST["present"]).")";
+            $classsub = $_POST["classsub"];
+            $query = "UPDATE ".$classsub."_".date("M")." SET `".date("d")."-".date("M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
             if($conn -> query($query)){
                 echo '<script>alert("Done")</script>';
             }
@@ -13,6 +14,7 @@
             }
         }
     }
+    echo '<div class="block">';
     echo '<form method="post" class="selectionbox">';
     $query = "SELECT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
@@ -28,9 +30,9 @@
         echo '</select>';
     }
     if(isset($_POST["class"])){
+        $class = $_POST["class"];
         $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
         $result = $conn->query($query);
-
         if($result->num_rows > 0){
             echo '<select name="subject">';
             while ($row = $result->fetch_assoc()) {
@@ -43,19 +45,27 @@
     }
     echo '</form>';
     if(isset($_POST["take"])){
-        $query = "ALTER TABLE `table 5` ADD day".date("d")." BOOLEAN NOT NULL DEFAULT FALSE";
+        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"]);
+        $query = "CREATE TABLE IF NOT EXISTS ".$classsub."_".date("M")." AS SELECT * FROM MAINDB_".$_POST["class"]."_".date("Y");
+        if(!$conn -> query($query)){
+            echo '<script>alert("'.$conn->error.'")</script>';
+        }
+    
+        $query = "ALTER TABLE ".$classsub."_".date("M")." ADD `".date("d")."-".date("M")."` BOOLEAN NOT NULL DEFAULT FALSE";
         if (!$conn -> query($query)){
             echo '<script>alert("You already took attendence")</script>';
+            echo '<script>alert("'.$conn->error.'")</script>';
         }
 
         echo '<form method="post" class="sheet">';
-        $query = "SELECT * FROM `table 5`";
+        echo '<input type="hidden" name="classsub" value="'.$classsub.'">';
+        $query = "SELECT * FROM ".$classsub."_".date("M");
         $result = $conn -> query($query);
         if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
-                echo '<label class="rollbox">'.$row["COL 1"];
-                echo '<div class="nm">'.$row["COL 2"].'</div>';
-                echo '<input type="checkbox" name="present[]" value="'.$row["COL 1"].'">';
+                echo '<label class="rollbox">'.$row["RNO"];
+                echo '<div class="nm">'.$row["NAME"].'</div>';
+                echo '<input type="checkbox" name="present[]" value="'.$row["RNO"].'">';
                 echo '<span class="newcheck"></span>';
                 echo '</label>';
             }
@@ -63,3 +73,4 @@
         echo '<input type="submit" name="Save" value="Save">';
         echo '</form>';
     }
+    echo '</div>';

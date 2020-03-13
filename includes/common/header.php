@@ -23,10 +23,10 @@
             <a href="./includes/common/logout.php">Logout</a>';
         }
         else{
-            echo '<li><a href="?section=takeattend">Take Attendence</a>
-            <li><a href="?section=viewattend">View Attendence</a>
-            <li><a href="?section=editattend">Edit Attendence</a>
-            <li><a href="./includes/common/logout.php">Logout</a>';
+            echo '<a href="?section=takeattend">Take Attendence</a>
+            <a href="?section=viewattend">View Attendence</a>
+            <a href="?section=editattend">Edit Attendence</a>
+            <a href="./includes/common/logout.php">Logout</a>';
         }
     }
     ?>

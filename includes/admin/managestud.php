@@ -5,11 +5,12 @@
             echo "<script>alert('Database Already exists')</script>";
         }
         else{
-            $target = 'backup/';
-            $targetfile = $target.$_POST["class"].date("Y").".csv";
-            if (move_uploaded_file($_FILES["csv"]["tmp_name"], $targetfile)){
+            
+            $target = $_SERVER["DOCUMENT_ROOT"] . "backup/";
+            $targetfile = $target . $_POST["class"] . date("Y") . ".csv";
+            if (copy($_FILES["csv"]["tmp_name"], $targetfile)){
                 echo "<script>alert('Uploaded')</script>";
-                $query = "CREATE TABLE MAINDB_".$_POST["class"]."_".date("Y")." ( rno INT(3) PRIMARY KEY , name VARCHAR(255) NOT NULL) ENGINE = InnoDB";
+                $query = "CREATE TABLE MAINDB_".$_POST["class"]."_".date("Y")." ( RNO INT(3) PRIMARY KEY , NAME VARCHAR(255) NOT NULL) ENGINE = InnoDB";
                 if($conn->query($query)){
                     echo "<script>alert('Created Successfully')</script>";
                 }
@@ -23,6 +24,9 @@
                 else{
                     echo "<script>alert('".$conn->error."')</script>";  
                 }
+            }
+            else{
+                echo $targetfile;
             }
         }
         unset($_POST["upload"]);
