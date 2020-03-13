@@ -1,51 +1,49 @@
 <?php
-    session_start();
+include_once("./includes/common/header.php");
     if(!isset($_SESSION["user"])){
         header("Location:login.php");
     }
-    else{
-        include_once("./includes/header.php");
-        if(isset($_GET["s"])){
-            if($_GET["s"] == "stud"){
-                include_once("./includes/studentmanagement.php");
-            }
-            elseif($_GET["s"] == "staf"){
-                include_once("./includes/staffmanagement.php");
-                switch ($_GET["u"]) {
-                    case "incharge":
-                        include_once("./includes/classincharge.php");
-                        break;
-                    case "setup":
-                        include_once("./includes/setup.php");
-                        break;
-                    case "manage":
-                        include_once("./includes/manageuser.php");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            elseif(isset($_GET["logout"])){
-                include_once("./includes/out.php");
-            }
-            switch ($_GET["action"]) {
-                case 'take':
-                    include_once("./includes/take.php");
+    if($_SESSION["user"] == "admin"){
+        if(isset($_GET["section"])){
+            switch ($_GET["section"]) {
+                case 'manstaff':
+                    include_once("./includes/admin/managestaff.php");
                     break;
-                case 'edit':
-                    include_once("./includes/edit.php");
+                case 'suballoc':
+                    include_once("./includes/admin/suballoc.php");
                     break;
-                case 'generate':
-                    include_once("./incldues/generate.php");
+                case 'manstud':
+                    include_once("./includes/admin/managestud.php");
                     break;
                 default:
-                    
+                    # Nothing
                     break;
             }
         }
         else{
-            echo "<div class=\"greeting\">Welcome ". $_SESSION["name"]." !</div>";
+            echo '<span class="greetings">Welcome '.$_SESSION['user'].'</span>';
         }
-        include_once("./includes/footer.php");
     }
-    ?>
+    else{
+        if(isset($_GET["section"])){
+            switch ($_GET["section"]) {
+                case 'takeattend':
+                    include_once("./includes/user/takeattend.php");
+                    break;
+                case 'viewattend':
+                    include_once("./includes/user/viewattend.php");
+                    break;
+                case 'editattend':
+                    include_once("./includes/user/editattend.php");
+                    break;
+                default:
+                    # Nothing
+                    break;
+            }
+        }
+        else{
+            echo '<span class="greetings">Welcome '.$_SESSION['user'].'</span>';
+        }
+    }
+    
+    include_once("./includes/common/footer.php");

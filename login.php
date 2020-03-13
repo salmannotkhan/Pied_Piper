@@ -1,14 +1,11 @@
-<?php
-	include_once("./includes/header.php");
-	session_start();
-	include_once("./includes/checklogin.php");
+<?php 
+    include_once("./includes/common/header.php");
+    include_once("./includes/common/login.php");
 ?>
- <div class="loginbox">
-	<h3>Login to Portal</h3>
-	<form class="login" method="POST">
-		<input type="text" name="user" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Username" required autofocus><br>
-		<input type="password" name="pwd" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Password" required><br>
-		<input type="submit" name="submit" value="Login">
-	</form>
-</div>
-<?php include_once("./includes/footer.php");?>
+    <form method="post" class="generic">
+    <h4>Login to portal</h4>
+    <input type="text" name="username" placeholder="Username" required autocomplete="off" autofocus="on">
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="submit" value="Login" name="submit">
+    </form>
+<?php include_once("./includes/common/footer.php");?>
