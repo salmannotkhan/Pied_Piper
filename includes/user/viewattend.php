@@ -33,12 +33,17 @@
             echo '<option value="'.$mnt.'">'.$mnt.'</option>';
         }
         echo '</select>';
+        echo '<select name="year">';
+        for ($i=0; $i <= 10 ; $i++) {
+            echo '<option value="'.($i + 2010).'">'.($i + 2010).'</option>';
+        }
+        echo '</select>';
         echo '<input type="submit" name="view" value="View">';
     }
     echo '</form>';
     if(isset($_POST["view"])){
-        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"]);
-        $query = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "piedpiper" AND TABLE_NAME = "'.$classsub."_".$_POST["month"].'"';
+        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"])."_".$_POST["month"]."_".$_POST["year"];
+        $query = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "piedpiper" AND TABLE_NAME = "'.$classsub.'"';
         if($result = $conn -> query($query)){
             echo "<table class='finalop'><tr align='center'>";
             $total = $result -> num_rows - 2;
@@ -51,7 +56,7 @@
         else{
             echo $conn -> error;
         }
-        $query = "SELECT * FROM ".$classsub."_".$_POST["month"]; 
+        $query = "SELECT * FROM ".$classsub; 
         if($result = $conn -> query($query)){
             echo "<tr align='center'>";
             while($row = $result -> fetch_row()){

@@ -4,9 +4,8 @@
             echo '<script>alert("Everyone is Absent")</script>';
         }
         else{
-            $query = "UPDATE `table 5` SET day04 = '0'";
-            $conn -> query($query);
-            $query = "UPDATE `table 5` SET day04 = '1' WHERE `table 5`.`COL 1` IN(".implode(",",$_POST["present"]).")";
+            $classsub = $_POST["classsub"];
+            $query = "UPDATE ".$classsub." SET `".date("d")."-".date("M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
             if($conn -> query($query)){
                 echo '<script>alert("Done")</script>';
             }
@@ -15,6 +14,7 @@
             }
         }
     }
+    echo '<div class="block">';
     echo '<form method="post" class="selectionbox">';
     $query = "SELECT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
@@ -46,21 +46,30 @@
     }
     echo '</form>';
     if(isset($_POST["edit"])){
-    echo '<form method="post" class="sheet">';
-    $query = "SELECT * FROM `table 5`";
-    $result = $conn -> query($query);
-    if($result -> num_rows > 0){
-        while($row = $result -> fetch_assoc()){
-            echo '<label class="rollbox">'.$row["COL 2"];
-            echo '<input type="checkbox"';
-            if($row["day04"]){
-                echo 'checked="checked"';
+        $date = date_create($_POST["date"]);
+        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"])."_".$date->format("M_Y");
+        echo '<form method="post" class="sheet">';
+        echo '<input type="hidden" name="classsub" value="'.$classsub.'">';
+
+        $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM ".$classsub;
+        $result = $conn -> query($query);
+        if($result -> num_rows > 0){
+            while($row = $result -> fetch_assoc()){
+                echo '<label class="rollbox">'.$row["RNO"];
+                echo '<div class="nm">'.$row["NAME"].'</div>';
+                echo '<input type="checkbox" ';
+                if($row[$date->format("d-M")]){
+                    echo 'checked="checked"';
+                }
+                echo 'name="present[]" value="'.$row["RNO"].'">';
+                echo '<span class="newcheck"></span>';
+                echo '</label>';
             }
-            echo 'name="present[]" value="'.$row["COL 1"].'">';
-            echo '<span class="newcheck"></span>';
-            echo '</label>';
         }
+        else{
+            echo $conn->error;
+        }
+        echo '<input type="submit" name="Save" value="Save">';
+        echo '</form>';
     }
-    echo '<input type="submit" name="Save" value="Save">';
-    echo '</form>';
-    }
+    echo '</div>';

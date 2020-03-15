@@ -121,29 +121,26 @@ form.sheet{
     width: 100%;
     margin-bottom: 5%;
 }
-label.rollbox{
-    display: block;
+label.rollbox,div.nm{
+    display: flex;
     position: relative;
     cursor: pointer;
     user-select: none;
     background-color: lightgrey;
     margin: 10px;
-    padding: 5px;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
-    height: 75px;
-    width: 150px;
+    height: 100px;
+    width: 200px;
     overflow-wrap: break-word;
     font-size: xxx-large;
     text-align: center;
 }
 
 form.selectionbox{
-    position: relative;
-    top: 0;
-    left: 50%;
-    margin: 5px;
+    margin: 5px auto;
     width: max-content;
-    transform: translateX(-50%);
 }
 
 form.selectionbox > select , form.selectionbox > input{
@@ -165,19 +162,14 @@ form.sheet input[type=submit]{
 div.nm{
     z-index: 1;
     opacity: 0;
-    display: block;
-    height: 75px;
-    padding: 5px;
-    width: 150px;
-    position: relative;
-    top: -90%;
-    left: -3%;
-    transition: opacity 1s ease;
+    margin: 0;
+    position: absolute;
+    transition: opacity .5s ease;
     font-size: medium;
 }
 
 div.nm:hover{
-    opacity: 1;
+    opacity: 0.7;
     color: black;
 }
 label.rollbox:hover{
@@ -197,6 +189,7 @@ label.rollbox:hover{
 .newcheck{
     position: absolute;
     top: 0;
+    border-radius: 5px;
     left: 0;    
     height: 100%;
     width: 100%;
