@@ -5,7 +5,8 @@
         }
         else{
             $classsub = $_POST["classsub"];
-            $query = "UPDATE ".$classsub." SET `".date("d")."-".date("M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
+            $date = date_create($_POST["date"]);
+            $query = "UPDATE ".$classsub." SET `".$date->format("d-M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
             if($conn -> query($query)){
                 echo '<script>alert("Done")</script>';
             }
@@ -16,7 +17,7 @@
     }
     echo '<div class="block">';
     echo '<form method="post" class="selectionbox">';
-    $query = "SELECT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
+    $query = "SELECT DISTINCT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
 
     if($result -> num_rows > 0){
@@ -41,7 +42,10 @@
             echo '</select>';
         }
         echo '</select>';
-        echo '<input type="date" name="date">';
+        echo '<input type="date" name="date" value="';
+        if(isset($_POST["date"])){echo $_POST["date"];}
+        echo '">';
+        
         echo '<input type="submit" name="edit" value="Edit">';
     }
     echo '</form>';
@@ -50,6 +54,7 @@
         $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"])."_".$date->format("M_Y");
         echo '<form method="post" class="sheet">';
         echo '<input type="hidden" name="classsub" value="'.$classsub.'">';
+        echo '<input type="hidden" name="date" value="'.$_POST["date"].'">';
 
         $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM ".$classsub;
         $result = $conn -> query($query);

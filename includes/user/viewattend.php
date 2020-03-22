@@ -2,7 +2,7 @@
 <?php
     echo '<div class="block">';
     echo '<form method="post" class="selectionbox">';
-    $query = "SELECT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
+    $query = "SELECT DISTINCT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
 
     if($result -> num_rows > 0){
@@ -22,7 +22,9 @@
         if($result->num_rows > 0){
             echo '<select name="subject">';
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="'.$row["SUBJECT"].'">'.$row["SUBJECT"].'</option>';
+                echo '<option value="'.$row["SUBJECT"].'"';
+                if (isset($_POST["subject"]) && $_POST["subject"]==$row["SUBJECT"]){echo 'selected ';} 
+                echo '>'.$row["SUBJECT"].'</option>';
             }
             echo '</select>';
         }
@@ -30,12 +32,16 @@
         echo '<select name="month">';
         for ($i=1; $i < 13 ; $i++) {
             $mnt = DateTime::createFromFormat('!m', $i) -> format('M');
-            echo '<option value="'.$mnt.'">'.$mnt.'</option>';
+            echo '<option value="'.$mnt.'"';
+            if (isset($_POST["month"]) && $_POST["month"]==$mnt){echo 'selected ';} 
+            echo '>'.$mnt.'</option>';
         }
         echo '</select>';
         echo '<select name="year">';
-        for ($i=0; $i <= 10 ; $i++) {
-            echo '<option value="'.($i + 2010).'">'.($i + 2010).'</option>';
+        for ($i=0; $i <= 0 ; $i++) {
+            echo '<option value="'.($i + 2020).'"';
+            if (isset($_POST["year"]) && $_POST["year"]==$i+2020){echo 'selected ';} 
+            echo '>'.($i + 2020).'</option>';
         }
         echo '</select>';
         echo '<input type="submit" name="view" value="View">';
@@ -48,9 +54,9 @@
             echo "<table class='finalop'><tr align='center'>";
             $total = $result -> num_rows - 2;
             while($row = $result -> fetch_row()){
-                echo "<td>".$row[0]."</td>";
+                echo "<th>".$row[0]."</th>";
             }
-            echo "<td>Present</td><td>Total</td><td>Percentage</td>";
+            echo "<th>Present</th><th>Total</th><th>Percentage</th>";
             echo "</tr>";
         }
         else{
@@ -80,5 +86,6 @@
             echo "</tr>";
         }
         echo "</table>";
+    echo '<a class="downloadlink" href="./includes/user/download.php?clstab='.$classsub.'">Download .xls</a>';
     }
     echo '</div>';
