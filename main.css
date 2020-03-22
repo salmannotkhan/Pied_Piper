@@ -23,7 +23,7 @@ nav{
     z-index: 100;
 }
 
-a:not(.logo):hover{
+a:not(.logo):hover, a.selected{
     background-color: #34495e;
 }
 
@@ -39,7 +39,7 @@ a{
 	text-align: center;
 	width: inherit;
 	color: white;
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a.logo > p{
@@ -47,6 +47,7 @@ a.logo > p{
 	font-size: x-large;
 	border: 1px white solid;
     padding: 5px;
+    user-select: none;
     transition: transform 0.5s ease;
 }
 
@@ -70,6 +71,7 @@ form.generic > input, form.generic > select{
     padding: 10px;
     border: 1px solid transparent;
     border-radius: 3px;
+    background-color: whitesmoke;
 }
 form.generic > input:focus{
     border: 1px solid blue;
@@ -103,7 +105,7 @@ footer{
 container{
     position: absolute;
     top: 5%;
-    min-height: 95%;
+    min-height: 90%;
     display: flex;
     align-items: center;
     width: 100%;
@@ -142,6 +144,8 @@ label.rollbox,div.nm{
 form.selectionbox{
     margin: 5px auto;
     width: max-content;
+    flex-direction: row;
+    padding: 5px;
 }
 
 form.selectionbox > select , form.selectionbox > input{
@@ -151,7 +155,10 @@ form.selectionbox > select , form.selectionbox > input{
 
 form.selectionbox > input{
     border: 1px solid transparent;
-    background-color: #ccc;
+    background-color: whitesmoke;
+}
+
+form.selectionbox > input[type="submit"]{
     width: 100px;
 }
 
@@ -226,5 +233,5 @@ a.downloadlink{
     height: 30px;
     width: max-content;
     padding: 5px;
-    margin: 10px auto;
+    margin: 10px auto -5px auto;
 }

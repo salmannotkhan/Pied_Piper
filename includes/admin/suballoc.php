@@ -15,7 +15,7 @@
         $result = $conn->query($query);
         if($result->num_rows > 0){
             echo '<select name="class" onchange="this.form.submit()">';
-            echo '<option value=""></option>';
+            echo '<option value="NULL">SELECT CLASS</option>';
             while ($row = $result->fetch_assoc()) {
                 echo '<option ' ;
                 if (isset($_POST["class"]) && $_POST["class"]==$row["CLASS"]){echo 'selected ';} 

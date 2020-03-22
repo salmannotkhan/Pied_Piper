@@ -1,7 +1,7 @@
 
 <?php
     echo '<div class="block">';
-    echo '<form method="post" class="selectionbox">';
+    echo '<form method="post" class="selectionbox generic">';
     $query = "SELECT DISTINCT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
 

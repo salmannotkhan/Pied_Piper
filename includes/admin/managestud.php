@@ -6,7 +6,7 @@
         }
         else{
             
-            $target = $_SERVER["DOCUMENT_ROOT"] . "backup/";
+            $target = $_SERVER["DOCUMENT_ROOT"] . "Pied-Piper/backup/";
             $targetfile = $target . $_POST["class"] . date("Y") . ".csv";
             if (copy($_FILES["csv"]["tmp_name"], $targetfile)){
                 echo "<script>alert('Uploaded')</script>";
