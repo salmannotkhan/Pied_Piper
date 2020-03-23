@@ -1,15 +1,14 @@
 <?php
 	if(isset($_POST["submit"])){
-		$username = $_POST["username"];
-		$password = $_POST["password"];
-		
-		$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '$username'";
+		$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '".$_POST["username"]."'";
 
 		if($conn->query($query)){
-			$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '$username' AND PWD = '$password'";
+			$query = "SELECT * FROM USER_DETAILS WHERE UNAME = '{$_POST["username"]}' AND PWD = '{$_POST["password"]}'";
 			$result = $conn -> query($query);
 			if($result -> num_rows > 0){
-				$_SESSION["user"] = $username;
+				$row = $result->fetch_assoc();
+				$_SESSION["user"] = $row["UNAME"];
+				$_SESSION["name"] = $row["NAME"];
 				header("Location:./");
 			}
 			else{

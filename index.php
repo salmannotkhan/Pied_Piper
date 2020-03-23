@@ -1,5 +1,5 @@
 <?php
-include_once("./includes/common/header.php");
+    include_once("./includes/common/header.php");
     if(!isset($_SESSION["user"])){
         header("Location:login.php");
     }
@@ -21,7 +21,7 @@ include_once("./includes/common/header.php");
             }
         }
         else{
-            echo '<span class="greetings">Welcome '.$_SESSION['user'].'</span>';
+            echo '<span class="greetings">Welcome '.$_SESSION['name'].'</span>';
         }
     }
     else{
@@ -42,8 +42,7 @@ include_once("./includes/common/header.php");
             }
         }
         else{
-            echo '<span class="greetings">Welcome '.$_SESSION['user'].'</span>';
+            echo '<span class="greetings">Welcome '.$_SESSION['name'].'</span>';
         }
     }
-    
     include_once("./includes/common/footer.php");

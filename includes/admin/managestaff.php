@@ -7,7 +7,7 @@
                     echo '<script>alert("User already exist")</script>';
                 }
                 else{
-                    $query = "INSERT INTO USER_DETAILS VALUES ('" . $_POST["username"] . "','" . $_POST["password"] . "')";
+                    $query = "INSERT INTO USER_DETAILS VALUES ('{$_POST["username"]}','{$_POST["password"]}')";
                     if($conn->query($query)){
                         echo '<script>alert("User added successfully")</script>';
                     }

@@ -1,11 +1,10 @@
-
 <?php
     echo '<div class="block">';
-    echo '<form method="post" class="selectionbox generic">';
     $query = "SELECT DISTINCT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
 
     if($result -> num_rows > 0){
+        echo '<form method="post" class="selectionbox generic">';
         echo '<select name="class" onchange="this.form.submit()">';
         echo '<option value="NULL">--SELECT CLASS--</option>';
         while($row = $result->fetch_assoc()){
@@ -14,6 +13,9 @@
             echo '>'.$row["CLASS"].'</option>';
         }
         echo '</select>';
+    }
+    else{
+        echo "<span class='greetings'>You're not allocated any subject.<br><center>Please contact Administrator</center></span>";
     }
     if(isset($_POST["class"])){
         $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
@@ -62,7 +64,7 @@
         else{
             echo $conn -> error;
         }
-        $query = "SELECT * FROM ".$classsub; 
+        $query = "SELECT * FROM `".$classsub."`"; 
         if($result = $conn -> query($query)){
             echo "<tr align='center'>";
             while($row = $result -> fetch_row()){

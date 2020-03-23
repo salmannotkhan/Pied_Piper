@@ -6,7 +6,7 @@
         else{
             $classsub = $_POST["classsub"];
             $date = date_create($_POST["date"]);
-            $query = "UPDATE ".$classsub." SET `".$date->format("d-M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
+            $query = "UPDATE `".$classsub."` SET `".$date->format("d-M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
             if($conn -> query($query)){
                 echo '<script>alert("Done")</script>';
             }
@@ -16,11 +16,11 @@
         }
     }
     echo '<div class="block">';
-    echo '<form method="post" class="selectionbox generic">';
     $query = "SELECT DISTINCT CLASS FROM SUB_ALLOC WHERE FACULTY = '{$_SESSION["user"]}'";
     $result = $conn->query($query);
 
     if($result -> num_rows > 0){
+        echo '<form method="post" class="selectionbox generic">';
         echo '<select name="class" onchange="this.form.submit()">';
         echo '<option value="NULL">--SELECT CLASS--</option>';
         while($row = $result->fetch_assoc()){
@@ -29,6 +29,9 @@
             echo '>'.$row["CLASS"].'</option>';
         }
         echo '</select>';
+    }
+    else{
+        echo "<span class='greetings'>You're not allocated any subject.<br><center>Please contact Administrator</center></span>";
     }
     if(isset($_POST["class"])){
         $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
@@ -56,7 +59,7 @@
         echo '<input type="hidden" name="classsub" value="'.$classsub.'">';
         echo '<input type="hidden" name="date" value="'.$_POST["date"].'">';
 
-        $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM ".$classsub;
+        $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM `".$classsub."`";
         $result = $conn -> query($query);
         if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
