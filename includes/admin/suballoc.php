@@ -23,11 +23,11 @@
     }
     if(isset($_POST["class"])){
         echo '<select name="subject">';
-        $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE CLASS = '{$_POST["class"]}'";
+        $query = "SELECT SUBCODE,SUBJECT FROM SUB_ALLOC WHERE CLASS = '{$_POST["class"]}'";
         $result = $conn->query($query);
         if($result->num_rows > 0){
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="'.$row["SUBJECT"].'">'.$row["SUBJECT"].'</option>';
+                echo '<option value="'.$row["SUBJECT"].'">('.$row["SUBCODE"].') '.$row["SUBJECT"].'</option>';
             }
         }
         echo '</select>';
