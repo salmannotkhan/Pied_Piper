@@ -6,7 +6,7 @@
         else{
             $classsub = $_POST["classsub"];
             $date = date_create($_POST["date"]);
-            $query = "UPDATE `".$classsub."` SET `".$date->format("d-M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
+            $query = "UPDATE ".$classsub." SET `".$date->format("d-M")."`= 1 WHERE RNO IN(".implode(",",$_POST["present"]).")";
             if($conn -> query($query)){
                 echo '<script>alert("Done")</script>';
             }
@@ -34,13 +34,13 @@
         echo "<span class='greetings'>You're not allocated any subject.<br><center>Please contact Administrator</center></span>";
     }
     if(isset($_POST["class"])){
-        $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
+        $query = "SELECT SUBCODE,SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
         $result = $conn->query($query);
         
         if($result->num_rows > 0){
             echo '<select name="subject">';
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="'.$row["SUBJECT"].'">'.$row["SUBJECT"].'</option>';
+                echo '<option value="'.$row["SUBCODE"].'">'.$row["SUBJECT"].'</option>';
             }
             echo '</select>';
         }
@@ -54,12 +54,12 @@
     echo '</form>';
     if(isset($_POST["edit"])){
         $date = date_create($_POST["date"]);
-        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"])."_".$date->format("M_Y");
+        $classsub = "`".$_POST["subject"]." ".$date->format("M-Y")."`";
         echo '<form method="post" class="sheet">';
         echo '<input type="hidden" name="classsub" value="'.$classsub.'">';
         echo '<input type="hidden" name="date" value="'.$_POST["date"].'">';
 
-        $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM `".$classsub."`";
+        $query = "SELECT RNO,NAME,`".$date->format("d-M")."` FROM ".$classsub;
         $result = $conn -> query($query);
         if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){

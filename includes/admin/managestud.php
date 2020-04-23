@@ -54,18 +54,18 @@
         echo '</select>';
     }
     if (isset($_POST["class"])){
-        $dbtable = "MAINDB_".$_POST["class"]."_".date("Y");
+        $dbtable = "`MAINDB ".$_POST["class"]." ".date("Y")."`";
         echo    '<input type="hidden" name="dbtable" value="'.$dbtable.'">
                 <input type="file" name="csv">
                 <input type="submit" name="upload" value="Upload">';
-        $query = "SELECT * FROM .$dbtable";
+        $query = "SELECT * FROM ".$dbtable;
         if($result = $conn->query($query)){
             echo '<input type="submit" name="delete" value="Delete">';
         }
     } 
     echo '</form>';
     if (isset($_POST["class"])){
-        $query = "SELECT * FROM .$dbtable";
+        $query = "SELECT * FROM ".$dbtable;
         if($result = $conn->query($query)){
             echo    '<h4>Existing Student List:</h4><br>
                     <table class="finalop">';

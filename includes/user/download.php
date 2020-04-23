@@ -16,7 +16,8 @@
     else{
         echo $conn -> error;
     }
-    $query = "SELECT * FROM ".$classsub; 
+    $query = "SELECT * FROM `".$classsub."`"; 
+
     if($result = $conn -> query($query)){
         echo "<tr align='center'>";
         while($row = $result -> fetch_row()){

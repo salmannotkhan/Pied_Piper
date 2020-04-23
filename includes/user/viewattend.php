@@ -18,13 +18,13 @@
         echo "<span class='greetings'>You're not allocated any subject.<br><center>Please contact Administrator</center></span>";
     }
     if(isset($_POST["class"])){
-        $query = "SELECT SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
+        $query = "SELECT SUBCODE,SUBJECT FROM SUB_ALLOC WHERE FACULTY ='{$_SESSION["user"]}' AND CLASS = '{$_POST["class"]}'";
         $result = $conn->query($query);
         
         if($result->num_rows > 0){
             echo '<select name="subject">';
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="'.$row["SUBJECT"].'"';
+                echo '<option value="'.$row["SUBCODE"].'"';
                 if (isset($_POST["subject"]) && $_POST["subject"]==$row["SUBJECT"]){echo 'selected ';} 
                 echo '>'.$row["SUBJECT"].'</option>';
             }
@@ -35,36 +35,45 @@
         for ($i=1; $i < 13 ; $i++) {
             $mnt = DateTime::createFromFormat('!m', $i) -> format('M');
             echo '<option value="'.$mnt.'"';
-            if (isset($_POST["month"]) && $_POST["month"]==$mnt){echo 'selected ';} 
+            if ((isset($_POST["month"]) && $_POST["month"]==$mnt) || (!isset($_POST["month"]) && date("M")==$mnt)){echo 'selected ';} 
             echo '>'.$mnt.'</option>';
         }
         echo '</select>';
         echo '<select name="year">';
-        for ($i=0; $i <= 0 ; $i++) {
-            echo '<option value="'.($i + 2020).'"';
-            if (isset($_POST["year"]) && $_POST["year"]==$i+2020){echo 'selected ';} 
-            echo '>'.($i + 2020).'</option>';
+        for ($i=2020; $i <= date('Y') ; $i++) {
+            echo '<option value="'.($i).'"';
+            if ((isset($_POST["year"]) && $_POST["year"]==$i) || (!isset($_POST["month"]) && date('Y') == $i)){echo 'selected ';} 
+            echo '>'.($i).'</option>';
         }
         echo '</select>';
         echo '<input type="submit" name="view" value="View">';
     }
     echo '</form>';
     if(isset($_POST["view"])){
-        $classsub = $_POST["class"]."_".str_replace(' ', '_', $_POST["subject"])."_".$_POST["month"]."_".$_POST["year"];
-        $query = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "piedpiper" AND TABLE_NAME = "'.$classsub.'"';
+        $classsub = $_POST["subject"]." ".$_POST["month"]."-".$_POST["year"];
+        $query = 'SELECT COUNT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "piedpiper" AND TABLE_NAME = "'.$classsub.'"';
         if($result = $conn -> query($query)){
-            echo "<table class='finalop'><tr align='center'>";
-            $total = $result -> num_rows - 2;
-            while($row = $result -> fetch_row()){
-                echo "<th>".$row[0]."</th>";
+            $row = $result -> fetch_row();
+            if($row[0] > 0){
+                $query = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "piedpiper" AND TABLE_NAME = "'.$classsub.'"';
+                $result = $conn -> query($query);
+                echo "<table class='finalop'><tr align='center'>";
+                $total = $result -> num_rows - 2;
+                while($row = $result -> fetch_row()){
+                    echo "<th>".$row[0]."</th>";
+                }
+                echo "<th>Present</th><th>Total</th><th>Percentage</th>";
+                echo "</tr>";
             }
-            echo "<th>Present</th><th>Total</th><th>Percentage</th>";
-            echo "</tr>";
+            else{
+                echo "<center><strong>No data available</strong></center>";
+            }
         }
         else{
             echo $conn -> error;
         }
         $query = "SELECT * FROM `".$classsub."`"; 
+
         if($result = $conn -> query($query)){
             echo "<tr align='center'>";
             while($row = $result -> fetch_row()){
@@ -86,8 +95,8 @@
                 echo "<td>".$present."</td><td>".$total."</td><td>".round($present*100 / $total)."%</td></tr><tr align='center'>";
             }
             echo "</tr>";
+            echo "</table>";
+            echo '<a class="downloadlink" href="./includes/user/download.php?clstab='.$classsub.'">Download .xls</a>';
         }
-        echo "</table>";
-    echo '<a class="downloadlink" href="./includes/user/download.php?clstab='.$classsub.'">Download .xls</a>';
     }
     echo '</div>';
