@@ -1,6 +1,4 @@
-import requests 
-import mysql.connector
-import os
+import requests,os,mysql.connector
 from bs4 import BeautifulSoup
 
 def dbupdate():
@@ -20,7 +18,6 @@ sems = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']
 
 if os.path.isfile('latest.csv'):
     latest = open('latest.csv', 'r')
-    flag = 1
     
 temp = open('temp.csv', 'w')
     
@@ -35,15 +32,12 @@ for i in range(len(sems)):
     for row in rows[1:]:
         cols = row.findAll('font')
         line = 'BCA SEM-' + str(i+1) + ',' + cols[1].text + ',' + cols[2].text.replace(',', ' ').strip() + '\n'
-        if 'flag' in locals():
-            if line != latest.readline():
-                flag = False
         temp.write(line)
     print('Found ' + str(len(rows)) + ' Subjects')
 temp.close()
-
-if 'flag' in locals():
-    if(flag):
+temp = open('temp.csv', 'r')
+if os.path.isfile('latest.csv'):
+    if temp.read() == latest.read():
         print('No update found!!')
         os.remove('temp.csv')
     else:
