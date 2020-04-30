@@ -77,7 +77,6 @@
         else{
             echo $conn->error;
         }
-        echo '<input type="submit" name="Save" value="Save">';
-        echo '</form>';
+        echo '<div><input type="submit" name="Save" value="Save"></div></form>';
     }
     echo '</div>';

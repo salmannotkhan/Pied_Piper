@@ -1,6 +1,7 @@
 *{
     padding: 0%;
     margin: 0%;
+    box-sizing: border-boxfdo;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -10,9 +11,7 @@ body{
 
 /* Header Styling */
 
-nav *:hover{
-    cursor: default;
-}
+
 nav{
     position: fixed;
     background-color: #2c3e50;
@@ -35,7 +34,6 @@ a{
     display: flex;
 	align-items: center;
 	justify-content: space-around;
-	cursor: default;
 	text-align: center;
 	width: inherit;
 	color: white;
@@ -115,9 +113,9 @@ container{
 /* Take Attendence */
 
 form.sheet{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto;
-    padding-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .block{
@@ -163,8 +161,8 @@ form.selectionbox > input[type="submit"]{
 }
 
 form.sheet input[type=submit]{
-    grid-column-start: 4;
     height: 50px;
+    width: 100px;
 }
 
 div.nm{
@@ -183,6 +181,11 @@ div.nm:hover{
 }
 label.rollbox:hover{
     color: lightgray;
+}
+
+form.sheet > div:not(.rollbox){
+    flex-basis: 100%;
+    text-align: center;
 }
     
 
@@ -230,6 +233,7 @@ span.greetings{
 }
 
 a.downloadlink{
+    cursor: pointer;
     background-color: #2c3e50;
     height: 30px;
     width: max-content;
