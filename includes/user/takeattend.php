@@ -48,7 +48,7 @@
     }
     echo '</form>';
     if(isset($_POST["take"])){
-        $classsub = "`".$_POST["subject"]." ".date("M-Y")."`";
+        $classsub = "`".$_POST["class"]." ".$_POST["subject"]." ".date("M-Y")."`";
         $query = "CREATE TABLE IF NOT EXISTS ".$classsub." AS SELECT * FROM `MAINDB ".$_POST["class"]." ".date("Y")."`";
         if(!$conn -> query($query)){
             echo '<script>alert("'.$conn->error.'")</script>';
